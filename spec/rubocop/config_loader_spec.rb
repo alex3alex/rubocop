@@ -24,6 +24,21 @@ describe RuboCop::ConfigLoader do
         end
       end
 
+      context 'with a user-provided default' do
+        let(:user_config_file) { 'dir/user_default.yml' }
+        before do
+          described_class.default_file = user_config_file
+        end
+
+        after do
+          described_class.default_file = nil
+        end
+
+        it 'falls back to the user-provided default file' do
+          expect(configuration_file_for).to end_with('dir/user_default.yml')
+        end
+      end
+
       context 'and no config file exists in home directory' do
         it 'falls back to the provided default file' do
           expect(configuration_file_for).to end_with('config/default.yml')

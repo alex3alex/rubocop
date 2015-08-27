@@ -18,6 +18,7 @@ module RuboCop
     class << self
       attr_accessor :debug, :auto_gen_config, :exclude_limit
       attr_writer :root_level # The upwards search is stopped at this level.
+      attr_writer :default_file
 
       alias_method :debug?, :debug
       alias_method :auto_gen_config?, :auto_gen_config
@@ -72,18 +73,26 @@ module RuboCop
         configs.compact
       end
 
+      def default_file
+        if @default_file
+          @default_file
+        else
+          DEFAULT_FILE
+        end
+      end
+
       # Returns the path of .rubocop.yml searching upwards in the
       # directory structure starting at the given directory where the
       # inspected file is. If no .rubocop.yml is found there, the
       # user's home directory is checked. If there's no .rubocop.yml
       # there either, the path to the default file is returned.
       def configuration_file_for(target_dir)
-        config_files_in_path(target_dir).first || DEFAULT_FILE
+        config_files_in_path(target_dir).first || default_file
       end
 
       def configuration_from_file(config_file)
         config = load_file(config_file)
-        return config if config_file == DEFAULT_FILE
+        return config if config_file == default_file
 
         found_files = config_files_in_path(config_file)
         if found_files.any? && found_files.last != config_file
@@ -98,13 +107,6 @@ module RuboCop
                                      print 'Default ' if debug?
                                      load_file(DEFAULT_FILE)
                                    end
-      end
-
-      def default_configuration=(path)
-        @default_configuration = begin
-                                   print 'New Default ' if debug?
-                                   load_file(path)
-                                 end
       end
 
       # Merges the given configuration with the default one. If
