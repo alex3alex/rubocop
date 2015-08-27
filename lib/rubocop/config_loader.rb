@@ -100,6 +100,13 @@ module RuboCop
                                    end
       end
 
+      def default_configuration=(path)
+        @default_configuration = begin
+                                   print 'New Default ' if debug?
+                                   load_file(path)
+                                 end
+      end
+
       # Merges the given configuration with the default one. If
       # AllCops:DisabledByDefault is true, it changes the Enabled params so
       # that only cops from user configuration are enabled.

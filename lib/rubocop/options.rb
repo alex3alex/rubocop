@@ -82,6 +82,8 @@ module RuboCop
     def add_configuration_options(opts, args)
       option(opts, '-c', '--config FILE')
 
+      option(opts, '--default-config FILE')
+
       option(opts, '--auto-gen-config') do
         validate_auto_gen_config_option(args)
         @options[:formatters] = [[DEFAULT_FORMATTER],
@@ -193,6 +195,7 @@ module RuboCop
       except:               'Disable the given cop(s).',
       require:              'Require Ruby file.',
       config:               'Specify configuration file.',
+      default_config:       'Use the specified file as a default configuration',
       auto_gen_config:     ['Generate a configuration file acting as a',
                             'TODO list.'],
       exclude_limit:       ['Used together with --auto-gen-config to',

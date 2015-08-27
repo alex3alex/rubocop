@@ -42,6 +42,7 @@ Usage: rubocop [options] [file1, file2, ...]
         --only-guide-cops            Run only cops for rules that link to a
                                      style guide.
     -c, --config FILE                Specify configuration file.
+        --default-config FILE        Use the specified file as a default configuration
         --auto-gen-config            Generate a configuration file acting as a
                                      TODO list.
         --exclude-limit COUNT        Used together with --auto-gen-config to
